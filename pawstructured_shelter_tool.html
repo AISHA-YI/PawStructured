@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pawstructured 🐾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FFF8EE;
+    --cream-deep: #FBEFD9;
+    --coral: #FF8A65;
+    --coral-deep: #F2673F;
+    --coral-tint: #FFE8DD;
+    --mustard: #F4B942;
+    --mustard-tint: #FFF3D6;
+    --sage: #7FB89A;
+    --sage-tint: #E4F3EB;
+    --ink: #3A2E28;
+    --ink-soft: #8A7A6C;
+    --paper: #FFFFFF;
+    --line: #F0E2CC;
+    --shadow: 0 14px 34px -16px rgba(139, 90, 60, 0.28);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:var(--cream); color:var(--ink); font-family:'Nunito',sans-serif; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px 80px; }
+
+  header.site{ display:flex; align-items:center; gap:14px; padding: 26px 0 10px; }
+  .site-logo{
+    width:52px; height:52px; border-radius:50%;
+    background: linear-gradient(135deg, var(--coral), var(--mustard));
+    display:flex; align-items:center; justify-content:center;
+    font-size:26px; flex-shrink:0;
+    box-shadow: 0 8px 18px -6px rgba(242,103,63,0.5);
+  }
+  .site-title{ font-family:'Baloo 2',sans-serif; font-size:26px; color:var(--ink); font-weight:700; }
+  .site-tagline{ font-size:13px; color:var(--ink-soft); font-weight:600; }
+
+  .hero{ text-align:center; max-width:660px; margin:36px auto 46px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Baloo 2',sans-serif; font-size:12.5px; letter-spacing:0.02em;
+    color:var(--coral-deep); background:var(--coral-tint);
+    padding:8px 18px; border-radius:100px; margin-bottom:18px; font-weight:600;
+  }
+  h1{ font-family:'Baloo 2',sans-serif; font-size:clamp(30px,4.5vw,44px); margin:0 0 16px; font-weight:800; line-height:1.1; color:var(--ink); }
+  h1 .highlight{ color:var(--coral-deep); }
+  .hero p{ color:var(--ink-soft); font-size:16px; line-height:1.7; margin:0; font-weight:500; }
+
+  .steps-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:32px; }
+  @media (max-width:640px){ .steps-grid{ grid-template-columns:1fr; gap:10px; } }
+  .step-card{
+    background:var(--paper); border-radius:16px; padding:14px 16px;
+    box-shadow: 0 8px 18px -12px rgba(139,90,60,0.18);
+    border: 2px solid var(--line);
+    display:flex; align-items:center; gap:12px;
+  }
+  .step-emoji{ font-size:22px; flex-shrink:0; line-height:1; }
+  .step-text{ min-width:0; }
+  .step-title{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13.5px; margin-bottom:2px; color:var(--ink); }
+  .step-desc{ font-size:11.5px; color:var(--ink-soft); line-height:1.4; font-weight:500; }
+
+  .panel{
+    background:var(--paper); border-radius:24px; padding:30px;
+    box-shadow:var(--shadow); margin-bottom:22px;
+    border: 3px solid var(--cream-deep);
+  }
+  .panel-title{ font-family:'Baloo 2',sans-serif; font-size:18px; font-weight:700; margin:0 0 6px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  .panel-sub{ font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; font-weight:600; }
+
+  .presets{ display:flex; gap:9px; margin-bottom:18px; flex-wrap:wrap; }
+  .preset-btn{
+    font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
+    background:var(--mustard-tint); color:#8a6414; border:none;
+    padding:9px 18px; border-radius:100px; cursor:pointer; transition:.15s;
+  }
+  .preset-btn:hover{ background:var(--mustard); color:white; }
+
+  label{ display:block; font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-soft); margin:16px 0 7px; font-weight:700; }
+  input[type=text], textarea{
+    width:100%; font-family:'Nunito',sans-serif; font-size:14.5px; color:var(--ink);
+    background:var(--cream); border:2px solid var(--line); border-radius:14px;
+    padding:13px 15px; resize:vertical; line-height:1.6; font-weight:500;
+  }
+  textarea{ min-height:160px; }
+  input:focus, textarea:focus{ outline:none; border-color:var(--coral); }
+
+  .btn-primary{
+    margin-top:22px; width:100%; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:16px;
+    background: linear-gradient(135deg, var(--coral), var(--coral-deep));
+    color:white; border:none; border-radius:100px; padding:15px;
+    cursor:pointer; transition:.15s;
+    box-shadow: 0 10px 24px -8px rgba(242,103,63,0.5);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); }
+  .btn-primary:disabled{ opacity:0.5; cursor:progress; transform:none; }
+  .btn-secondary{
+    font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13.5px;
+    background:var(--sage-tint); color:#3d6e56; border:none; border-radius:100px;
+    padding:11px 20px; cursor:pointer; transition:.15s;
+  }
+  .btn-secondary:hover{ background:var(--sage); color:white; }
+  .btn-download{
+    font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13.5px;
+    background: var(--ink); color:white; border:none; border-radius:100px;
+    padding:11px 20px; cursor:pointer; transition:.15s;
+  }
+  .btn-download:hover{ transform: translateY(-1px); }
+  .btn-download:disabled{ opacity:0.4; cursor:not-allowed; transform:none; }
+
+  .live-badge{ display:inline-flex; align-items:center; gap:7px; font-size:12px; color:#3d6e56; margin-top:14px; font-weight:700; }
+  .live-badge .dot{ width:7px;height:7px;border-radius:50%; background:var(--sage); animation:pulse 1.5s infinite; }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(127,184,154,.6);} 70%{box-shadow:0 0 0 8px rgba(127,184,154,0);} 100%{box-shadow:0 0 0 0 rgba(127,184,154,0);} }
+
+  .empty{ display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:180px; text-align:center; color:var(--ink-soft); gap:12px; }
+  .empty .paw{ font-size:32px; }
+  .empty p{ font-size:13.5px; max-width:280px; margin:0; line-height:1.55; font-weight:600; }
+
+  .plain-record{
+    background:var(--cream); border:2px solid var(--line); border-radius:16px;
+    padding:20px 22px; font-family:'Nunito',sans-serif; font-size:14px; line-height:1.75;
+    color:var(--ink); white-space:pre-wrap; font-weight:500;
+  }
+  .plain-record b{ font-weight:800; }
+
+  .error-box{ background:var(--coral-tint); border:2px solid #ffc4ab; color:var(--coral-deep); padding:16px 18px; border-radius:16px; font-size:13px; line-height:1.6; font-weight:600; }
+
+  .caption-card{ background: linear-gradient(160deg, var(--mustard-tint), var(--cream)); border-radius:18px; padding:20px; border: 2px solid var(--cream-deep); }
+  .caption-text{ font-size:14px; line-height:1.7; color:var(--ink); white-space:pre-wrap; margin-bottom:14px; font-weight:500; }
+  .caption-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  .record-actions{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:16px; }
+  .roster-note{
+    font-family:'Nunito',sans-serif; font-size:12.5px; font-weight:700; color:var(--ink-soft);
+    background:none; border:none; cursor:default; padding:11px 4px;
+  }
+  .roster-note b{ color:#3d6e56; font-size:14px; }
+
+  details.setup{ margin-top:16px; }
+  details.setup summary{ font-size:12px; color:#8B5A6E; cursor:pointer; font-weight:700; }
+  details.setup .body{ font-size:12px; color:var(--ink-soft); line-height:1.6; margin-top:10px; background:var(--cream); padding:14px; border-radius:14px; font-weight:600; }
+
+  footer.foot{ text-align:center; font-size:12px; color:var(--ink-soft); margin-top:36px; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <div class="site-logo">🐶</div>
+    <div>
+      <div class="site-title">Pawstructured</div>
+      <div class="site-tagline">Write it once. Use it everywhere.</div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <span class="eyebrow">Made for pet rescues</span>
+    <h1>One write-up becomes a <span class="highlight">tidy record</span> and a <span class="highlight">ready-to-post caption.</span></h1>
+    <p>Paste a pet's write-up the way you always do. Get back a clean, readable record you can copy anywhere, plus a warm caption for Instagram. Everything you generate stays right here, ready to download as a spreadsheet whenever you're done.</p>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <span class="step-emoji">✍️</span>
+      <div class="step-text">
+        <div class="step-title">Paste the write-up</div>
+        <div class="step-desc">No forms, no fields. Just write it like you always do.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <span class="step-emoji">📋</span>
+      <div class="step-text">
+        <div class="step-title">Get a tidy record</div>
+        <div class="step-desc">Plain text, ready to copy into your own website.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <span class="step-emoji">⬇️</span>
+      <div class="step-text">
+        <div class="step-title">Download when done</div>
+        <div class="step-desc">Export everything as a spreadsheet, no account needed.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">🐾 Your pet's write-up</div>
+    <div class="panel-sub">Try a real example, or paste your own.</div>
+
+    <div class="presets">
+      <button class="preset-btn" onclick="loadPreset('rudy')">🐕 Try an example</button>
+      <button class="preset-btn" onclick="startNewPet()">✨ New pet</button>
+    </div>
+
+    <label>Pet's name</label>
+    <input type="text" id="dogName" value="Rudy">
+
+    <label>Write-up</label>
+    <textarea id="dogText">Rudy is a 5-year-old shepherd mix. He is affectionate and playful dog who forms strong bonds with his people and loves being part of a calm, structured home. Rudy would thrive in an adult-only household. People-friendly and very loving. Good with dogs after proper introduction. Enjoys walks, playing fetch in open spaces, and cuddling with his favorite person. House-trained, neutered, and up to date on care. Smart and eager to please. Food motivated. Working on leash manners.</textarea>
+
+    <button class="btn-primary" id="goBtn" onclick="runExtraction()">🐾 Generate record + caption</button>
+    <div class="live-badge"><span class="dot"></span> Real AI, works on any write-up you paste</div>
+
+    <details class="setup">
+      <summary>⚙️ Connection settings</summary>
+      <div class="body">
+        <label>Backend URL</label>
+        <input type="text" id="backendUrl" value="http://localhost:8000">
+      </div>
+    </details>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">📋 Structured record</div>
+    <div id="cardBody">
+      <div class="empty">
+        <div class="paw">🐾</div>
+        <p>Click "Generate record + caption" above to see the tidy record and caption here.</p>
+      </div>
+    </div>
+    <div class="record-actions">
+      <button class="roster-note" id="rosterNote"><b id="rosterCount">0</b> pets recorded this session</button>
+      <button class="btn-download" id="downloadBtn" onclick="downloadCSV()" disabled>⬇️ Download as spreadsheet (.csv)</button>
+    </div>
+  </div>
+
+  <div class="panel" id="captionPanel" style="display:none;">
+    <div class="panel-title">📣 Ready-to-post caption</div>
+    <div class="panel-sub">Pair this with your best photo. Copy it, review it, post it whenever you're ready.</div>
+    <div class="caption-card">
+      <div class="caption-text" id="captionText"></div>
+    </div>
+    <button class="btn-secondary" style="margin-top:14px;" onclick="copyCaption()">📋 Copy caption</button>
+  </div>
+
+  <footer class="foot">🐾 Pawstructured, a free tool for pet rescues. Not affiliated with any social media platform.</footer>
+</div>
+
+<script>
+const presets = {
+  rudy: { name:"Rudy", text:"Rudy is a 5-year-old shepherd mix. He is affectionate and playful dog who forms strong bonds with his people and loves being part of a calm, structured home. Rudy would thrive in an adult-only household. People-friendly and very loving. Good with dogs after proper introduction. Enjoys walks, playing fetch in open spaces, and cuddling with his favorite person. House-trained, neutered, and up to date on care. Smart and eager to please. Food motivated. Working on leash manners." }
+};
+
+// All pets generated this session, kept only in the browser (not sent anywhere except the AI calls).
+let roster = [];
+
+function loadPreset(key){
+  document.getElementById('dogName').value = presets[key].name;
+  document.getElementById('dogText').value = presets[key].text;
+}
+
+function startNewPet(){
+  document.getElementById('dogName').value = '';
+  document.getElementById('dogText').value = '';
+  document.getElementById('cardBody').innerHTML = `<div class="empty"><div class="paw">🐾</div><p>Paste a write-up above and click "Generate record + caption" to get started.</p></div>`;
+  document.getElementById('captionPanel').style.display = 'none';
+  document.getElementById('dogName').focus();
+}
+
+async function runExtraction(){
+  const btn = document.getElementById('goBtn');
+  const name = document.getElementById('dogName').value.trim() || "Unnamed";
+  const text = document.getElementById('dogText').value.trim();
+  const body = document.getElementById('cardBody');
+  const backendUrl = document.getElementById('backendUrl').value.trim();
+  if(!text) return;
+
+  btn.disabled = true;
+  btn.textContent = "🐾 Reading write-up...";
+  document.getElementById('captionPanel').style.display = 'none';
+
+  try{
+    const extractRes = await fetch(`${backendUrl}/extract`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dog_name: name, text: text })
+    });
+    const parsed = await extractRes.json();
+    if(parsed.error) throw new Error(parsed.error);
+    const tags = parsed.tags || [];
+    const basics = parsed.basics || {};
+
+    renderPlainRecord(name, basics, tags);
+    addToRoster(name, basics, tags);
+
+    document.getElementById('captionPanel').style.display = 'block';
+    generateCaption(name, text);
+
+  }catch(err){
+    body.innerHTML = `<div class="error-box"><b>Oops, something went wrong:</b> ${escapeHtml(err.message)}</div>`;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "🐾 Generate record + caption";
+  }
+}
+
+function renderPlainRecord(name, basics, tags){
+  const body = document.getElementById('cardBody');
+  const hard = tags.filter(t => t.type === 'hard_requirement').map(t => t.label);
+  const personality = tags.filter(t => t.type !== 'hard_requirement').map(t => t.label);
+
+  const fields = [
+    ['Dog Name', name],
+    ['Sex', basics.sex],
+    ['Age', basics.age],
+    ['Weight', basics.weight],
+    ['Breed', basics.breed],
+  ];
+
+  let lines = [];
+  fields.forEach(([label, value]) => {
+    if(value && value.toLowerCase() !== 'unknown'){
+      lines.push(`${label}: ${value}`);
+    }
+  });
+
+  let text = lines.join('\n');
+  if(hard.length) text += `\n\nHard Requirements:\n` + hard.map(t => `* ${t}`).join('\n');
+  if(personality.length) text += `\n\nPersonality:\n` + personality.map(t => `* ${t}`).join('\n');
+
+  body.innerHTML = `<div class="plain-record" id="recordText">${escapeHtml(text)}</div>
+    <button class="btn-secondary" style="margin-top:14px;" onclick="copyRecord()">📋 Copy record</button>`;
+  window.__lastResult = { name, basics, tags };
+}
+
+function copyRecord(){
+  const text = document.getElementById('recordText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = "Copied! ✓";
+    setTimeout(() => btn.textContent = original, 1500);
+  });
+}
+
+function addToRoster(name, basics, tags){
+  const hard = tags.filter(t => t.type === 'hard_requirement').map(t => t.label).join('; ');
+  const personality = tags.filter(t => t.type !== 'hard_requirement').map(t => t.label).join('; ');
+  roster.push({
+    name,
+    sex: basics.sex || '',
+    age: basics.age || '',
+    weight: basics.weight || '',
+    breed: basics.breed || '',
+    hard_requirements: hard,
+    personality: personality
+  });
+  document.getElementById('rosterCount').textContent = roster.length;
+  document.getElementById('downloadBtn').disabled = roster.length === 0;
+}
+
+function downloadCSV(){
+  if(roster.length === 0) return;
+  const headers = ['Dog Name','Sex','Age','Weight','Breed','Hard Requirements','Personality'];
+  const rows = roster.map(p => [p.name, p.sex, p.age, p.weight, p.breed, p.hard_requirements, p.personality]);
+
+  function csvEscape(val){
+    const s = String(val ?? '');
+    if(s.includes(',') || s.includes('"') || s.includes('\n')){
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    return s;
+  }
+
+  const csvContent = [headers, ...rows].map(row => row.map(csvEscape).join(',')).join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `pawstructured-export-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+async function generateCaption(name, text){
+  const backendUrl = document.getElementById('backendUrl').value.trim();
+  const captionEl = document.getElementById('captionText');
+  captionEl.textContent = "Writing a caption...";
+  try{
+    const res = await fetch(`${backendUrl}/caption`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dog_name: name, text: text })
+    });
+    const data = await res.json();
+    if(data.error) throw new Error(data.error);
+    captionEl.textContent = data.caption || "(no caption returned)";
+  }catch(e){
+    captionEl.textContent = "Couldn't generate a caption: " + e.message;
+  }
+}
+
+function copyCaption(){
+  const text = document.getElementById('captionText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = "Copied! ✓";
+    setTimeout(() => btn.textContent = original, 1500);
+  });
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
